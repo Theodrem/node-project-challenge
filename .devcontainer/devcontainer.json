@@ -1,7 +1,7 @@
 {
     "name": "Student Challenge API",
     "dockerComposeFile": [
-      "../docker-compose.dev.yml",
+      "../docker-compose.dev.yml"
     ],
     "service": "vscode",
     "workspaceFolder": "/server",
@@ -11,7 +11,11 @@
       "stringham.move-ts",
       "rbbit.typescript-hero",
       "ms-vscode.vscode-typescript-tslint-plugin",
-      "streetsidesoftware.code-spell-checker-french"
+      "streetsidesoftware.code-spell-checker-french",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "eamodio.gitlens",
+      "donjayamanne.githistory"
     ],
     "forwardPorts": [ 5050 ]
   }
