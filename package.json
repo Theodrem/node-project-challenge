@@ -8,7 +8,8 @@
   },
   "scripts": {
     "swagger": "tsoa spec-and-routes",
-    "api": "nodemon --watch 'src' src/api.ts -L"
+    "api": "nodemon --watch 'src' src/api.ts -L",
+    "dev": "npm run swagger && npm run api"
   },
   "repository": {
     "type": "git",
