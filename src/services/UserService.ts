@@ -4,24 +4,28 @@ import { IUser, UserCreationParams } from '../Type/AuthenticationType';
  
 export class UserService {
 
-  public async create(user: UserCreationParams): Promise<any> {
+  public async getUser(userEmail: string): Promise<any> {
     const db = DB.Connection;
     
     console.log(db);
-     // create a new query to fetch all records from the table
-    const query = await db.query(`select id from user where email=${user.email}`);
-    if (query ) {
-      return query;
-    } else {
-      const createUser = await db.query(`INSERT INTO user (firstName, lastName, email) VALUES ("${user.firstName}", "${user.lastName}" "${user.email}");`);
-      console.log(`User ${createUser}`);
+    // create a new query to fetch all records from the table
+    try {
+      const query = await db.query(`select id from user where email=${userEmail}`);
+      return query
+    } catch (err) {
+      return;
     }
+  }
   
 
-   // we run the query and set the result to a new variable
-   var rows = db.query(query);
-
-   // return the results
-   return rows;
-}
+  public async createUser(user: UserCreationParams): Promise<any> {
+    const db = DB.Connection;
+    console.log(db);
+    try {
+      const createUser = await db.query(`INSERT INTO user (firstName, lastName, email) VALUES ("${user.firstName}", "${user.lastName}" "${user.email}");`);
+      return (`user ${user.email} created`);
+    } catch (err) {
+      return;
+    }
+  }
 }
