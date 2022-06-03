@@ -1,5 +1,4 @@
 // here we import the mariadb
-const mariadb = require('mariadb');
 import mysql, { Pool } from 'mysql2/promise';
 
 /** Wrapper de la connexion à la SGBDR.

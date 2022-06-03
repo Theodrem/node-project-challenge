@@ -3,7 +3,8 @@ export interface IUser {
     email: string;
     firstName: string;
     lastName: string;
-    
 }
 
-export type UserCreationParams = Pick<IUser, "email" | "firstName" | "lastName">;
+export type IUserCreate = Pick<IUser, "email" | "firstName" | "lastName">;
+export type IUserUpdate = Partial<IUserCreate>;
+export type IUserRO = Readonly<IUser>;
