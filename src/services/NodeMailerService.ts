@@ -1,30 +1,25 @@
 import Nodemailer from "nodemailer";
-import { Exception } from "tsoa";
-import { LoginCreateUser } from "../Type/LoginCreateUser";
 
-export async function SendMailNode() {
+export async function SendMailNode(Email: string, Jwt: string) {
   // create reusable transporter object using the default SMTP transport
   let transporter = Nodemailer.createTransport({
-    service: "hotmail",
+    service: process.env.SENDER_SERVICE,
     auth: {
-      user: "louis.78100@hotmail.fr",
-      pass: "Zawadka78",
+      user: process.env.SENDER_EMAIL,
+      pass: process.env.SENDER_PASSWORD,
     },
   });
 
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: "louis.78100@hotmail.fr", // sender address
-    to: "louis.78100@hotmail.fr", // list of receivers
-    subject: "Hello ✔ hehe", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
+  //send mail with defined transport object
+  await transporter.sendMail({
+    from: process.env.SENDER_EMAIL, // sender address
+    to: Email, // list of receivers
+    subject: "Connecte toi sur ta challenge", // Subject line
+    text: "Voici ton URL de connexion  : " + GenerateLoginUrl(Jwt), // plain text body
+    html: `<b>Voici ton URL de connexion  : ${GenerateLoginUrl(Jwt)} </b> `, // html body
   });
+}
 
-  console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
-  console.log("Preview URL: %s", Nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+function GenerateLoginUrl(Jwt: string): string {
+  return process.env.REDIRECT_LOGIN_URL + Jwt;
 }

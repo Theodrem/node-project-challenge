@@ -1,10 +1,19 @@
+import bodyParser from "body-parser";
 import Express from "express";
 import swaggerUI from "swagger-ui-express";
-import { RegisterRoutes } from './routes/routes';
+import "dotenv/config";
+import { RegisterRoutes } from "./routes/routes";
 
 const PORT = process.env.PORT || 5050;
 
 const app = Express();
+
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(bodyParser.json());
 
 RegisterRoutes(app);
 
@@ -19,8 +28,6 @@ app.use(
   })
 );
 
-app.listen(PORT,
-  () => {
-    console.info("API Listening on port " + PORT);
-  }
-);
+app.listen(PORT, () => {
+  console.info("API Listening on port " + PORT);
+});
