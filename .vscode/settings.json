@@ -1,0 +1,22 @@
+
+{
+    "editor.tabSize": 2,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": false,
+    "git.autofetch": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "javascript.format.insertSpaceBeforeAndAfterBinaryOperators": false,
+    "typescript.format.insertSpaceAfterSemicolonInForStatements": false,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "cSpell.ignoreWords": [
+      "tsoa",
+      "Hetic's"
+    ],
+ 
+  }
