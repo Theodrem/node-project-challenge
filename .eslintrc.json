@@ -27,6 +27,7 @@
         "no-unused-vars": "off",
         "class-methods-use-this": "off",
         "import/extensions": "off",
-        "import/prefer-default-export": "off"
+        "import/prefer-default-export": "off",
+        "linebreak-style": 0 
     }
 }
