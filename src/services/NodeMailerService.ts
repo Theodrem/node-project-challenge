@@ -1,6 +1,4 @@
 import Nodemailer from "nodemailer";
-import { Exception } from "tsoa";
-import { LoginCreateUser } from "../Type/LoginCreateUser";
 
 export async function SendMailNode() {
   // create reusable transporter object using the default SMTP transport
@@ -17,14 +15,15 @@ export async function SendMailNode() {
     from: "louis.78100@hotmail.fr", // sender address
     to: "louis.78100@hotmail.fr", // list of receivers
     subject: "Hello ✔ hehe", // Subject line
-    text: "Hello world?", // plain text body
+    text: "Voici ton URL de connexion  : " + CreateConnectionUrl(), // plain text body
     html: "<b>Hello world?</b>", // html body
   });
 
   console.log("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-  // Preview only available when sending through an Ethereal account
   console.log("Preview URL: %s", Nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+}
+
+function CreateConnectionUrl(): string {
+  console.log(process.env.REDIRECT_LOGIN_URL);
+  return "";
 }
