@@ -7,8 +7,6 @@ export class AuthController extends Controller {
   @Post()
   public async login(@Body() BodyRequest: LoginCreateUser): Promise<void> {
     const Jwt: string = "12334";
-    await SendMailNode(BodyRequest, Jwt)
-      .then((body: any) => console.log(body))
-      .catch((err: any) => console.log(err));
+    await SendMailNode(BodyRequest.email, Jwt);
   }
 }
