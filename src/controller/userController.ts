@@ -1,4 +1,4 @@
-import { Controller, Route, Get, Post , SuccessResponse, Body, Path, Put, Delete } from 'tsoa';
+import { Controller, Route, Get, Post , SuccessResponse, Body, Path, Put, Delete, Security } from 'tsoa';
 import { UserService } from '../services/UserService';
 import { ICreateResponse, IUpdateResponse } from '../Type/api/APIResponses';
 import { IUserCreate, IUserUpdate } from '../Type/AuthenticationType';
@@ -6,6 +6,7 @@ import { IUser } from '../Type/AuthenticationType';
 
 
 @Route('user')
+@Security('jwt')
 export class UserController extends Controller {
   userService: UserService;
   constructor() {
