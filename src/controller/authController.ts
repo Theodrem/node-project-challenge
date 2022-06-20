@@ -15,15 +15,11 @@ export class AuthController extends Controller {
 
   @Post()
   public async login(@Body() BodyRequest: LoginCreateUser): Promise<void> {
-    await this.userService
-      .getUserByEMail(BodyRequest.email)
-      .then(async (UserId) => {
-        let User: IUserCreate = { email: BodyRequest.email, firstName: '', lastName: '' }
-        if (!UserId) {
-          User = await this.userService.createUser(User)
-        }
-        await SendMailNode(BodyRequest.email, generateTokenFromUser(User))
-      })
-      .catch((error) => console.error(error))
+    let UserId: Number | undefined = await this.userService.getUserByEMail(BodyRequest.email)
+    let User: IUserCreate = { email: BodyRequest.email, firstName: '', lastName: '' }
+    if (!UserId) {
+      User = await this.userService.createUser(User)
+    }
+    await SendMailNode(BodyRequest.email, generateTokenFromUser(User))
   }
 }
