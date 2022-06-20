@@ -22,9 +22,9 @@ app.use(
   swaggerUI.serve,
   swaggerUI.setup(undefined, {
     swaggerOptions: {
-      url: '/swagger.json',
-    },
-  }),
+      url: '/swagger.json'
+    }
+  })
 );
 
 app.listen(PORT, () => {
