@@ -1,8 +1,9 @@
-import Jwt, { JwtPayload } from 'jsonwebtoken';
+import Jwt, { JwtPayload } from 'jsonwebtoken'
+const config = require('../config/authConfig')
+import { IUser, IUserCreate } from '../Type/AuthenticationType'
 
-const secretkey = 'secretkeyfromenv';
-
-export function generateToken(): string {
-  // @TODO: Need to set user data inside the token payload
-  return Jwt.sign({}, secretkey);
+export function generateTokenFromUser(body: IUserCreate): string {
+  return Jwt.sign({ body }, config.secret, {
+    expiresIn: config.jwtExpiration
+  })
 }
