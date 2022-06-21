@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema challenge-db-dev
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema challenge-db-dev
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `challenge-db-dev` DEFAULT CHARACTER SET utf8 ;
+USE `challenge-db-dev` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`user`
+-- Table `challenge-db-dev`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`user` (
+CREATE TABLE IF NOT EXISTS `challenge-db-dev`.`user` (
   `userId` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) NOT NULL,
   `firstName` VARCHAR(100) NOT NULL,
@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user` (
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Instance`
+-- Table `challenge-db-dev`.`Instance`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Instance` (
+CREATE TABLE IF NOT EXISTS `challenge-db-dev`.`Instance` (
   `id_instance` INT NOT NULL AUTO_INCREMENT,
   `ssh_key` VARCHAR(300) NOT NULL,
   `ip_adress` VARCHAR(45) NOT NULL,
@@ -45,15 +45,15 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Instance` (
   INDEX `fk_Instance_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_Instance_user`
     FOREIGN KEY (`user_id`)
-    REFERENCES `mydb`.`user` (`userId`)
+    REFERENCES `challenge-db-dev`.`user` (`userId`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-USE `mydb`;
+USE `challenge-db-dev`;
 
 DELIMITER $$
-USE `mydb`$$
+USE `challenge-db-dev`$$
 create trigger before_insert_user
 before insert
 on user for each row set newUser.email = lower(trim(newUser.email))$$
