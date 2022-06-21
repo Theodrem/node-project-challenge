@@ -14,11 +14,9 @@ export function expressAuthentication(request: express.Request, securityName: st
         if (err) {
           reject(err);
         } else {
-          // Check if JWT contains all required scopes
           for (let scope of scopes as string[]) {
-            if (!decoded.scopes.includes(scope)) {
-              reject(new Error('JWT does not contain required scope.'));
-            }
+            if (scope === 'ROLE_ADMIN' && !decoded?.body?.role.includes('ROLE_ADMIN'))
+              reject(new Error('REQUIRE ADMIN ROLE'))
           }
           resolve(decoded);
         }

@@ -39,13 +39,14 @@ export class UserService {
   public async createUser(user: IUserCreate): Promise<IUser> {
     const db = DB.Connection
     const data = await db.query<OkPacket>(
-      `INSERT INTO user (email, firstName, lastName) VALUES ("${user.email}", "${user.firstName}", "${user.lastName}")`
+      `INSERT INTO user (email, firstName, lastName, ROLE) VALUES ("${user.email}", "${user.firstName}", "${user.lastName}", "${user.role}")`
     )
     let UserCreated: IUser = {
       userId: data[0].insertId,
       email: user.email,
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
+      role: user.role,
     }
     return UserCreated
   }
