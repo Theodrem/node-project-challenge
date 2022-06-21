@@ -1,6 +1,6 @@
 import { OkPacket, RowDataPacket } from 'mysql2'
 import { DB } from '../db/db'
-import { IUser, IUserCreate, IUserUpdate } from '../Type/AuthenticationType'
+import { IUser, IUserByEmail, IUserCreate, IUserUpdate } from '../Type/AuthenticationType'
 import { IUpdateResponse, ICreateResponse } from '../Type/api/APIResponses'
 
 export class UserService {
@@ -15,12 +15,18 @@ export class UserService {
     }
   }
 
-  public async getUserByEMail(userEmail: string): Promise<Number | undefined> {
+  public async getUserByEMail(userEmail: string): Promise<IUser | undefined> {
     const db = DB.Connection
     // create a new query to fetch all records from the table
     const data = await db.query<IUser & RowDataPacket[]>(`select * from user where email="${userEmail}"`)
     if (data[0].length > 0) {
-      return data[0][0].userId
+      return {
+        userId: data[0][0].userId,
+        email: data[0][0].email,
+        role: data[0][0].ROLE,
+        firstName: data[0][0]?.firstName,
+        lastName: data[0][0]?.lastName
+      }
     }
     return undefined
   }
@@ -46,7 +52,7 @@ export class UserService {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      role: user.role,
+      role: user.role
     }
     return UserCreated
   }
