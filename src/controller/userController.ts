@@ -1,11 +1,12 @@
 import { Controller, Route, Get, Post, SuccessResponse, Body, Path, Put, Delete, Security } from 'tsoa'
+import { generateTokenFromUser } from '../services/Jwt'
 import { UserService } from '../services/UserService'
 import { ICreateResponse, IUpdateResponse } from '../Type/api/APIResponses'
-import { IUserCreate, IUserUpdate } from '../Type/AuthenticationType'
+import { IUserByEmail, IUserCreate, IUserUpdate } from '../Type/AuthenticationType'
 import { IUser } from '../Type/AuthenticationType'
+import { LoginCreateUser } from '../Type/LoginCreateUser'
 
 @Route('user')
-@Security('jwt')
 export class UserController extends Controller {
   userService: UserService
   constructor() {
@@ -16,6 +17,7 @@ export class UserController extends Controller {
   /**
    * Get All Users
    */
+  @Security('jwt', ["ROLE_ADMIN"])
   @Get()
   public async getAll(): Promise<IUser[]> {
     return this.userService.getAllUsers()
@@ -40,13 +42,19 @@ export class UserController extends Controller {
   /**
    * Create a new user
    */
-  // @Post()
-  // @SuccessResponse('201', 'Created')
-  // public async createUser(@Body() requestBody: IUserCreate): Promise<ICreateResponse> {
-  //   // set return status 201
-  //   this.setStatus(201);
-  //   return this.userService.createUser(requestBody);
-  // }
+  @Post()
+  @SuccessResponse('201', 'Created')
+  public async loginWithoutMail(@Body() BodyRequest: LoginCreateUser): Promise<any> {
+    let UserExist = await this.userService.getUserByEMail(BodyRequest.email)
+    let User: IUserCreate = { email: BodyRequest.email, firstName: '', lastName: '', role: 'ROLE_USER' }
+    if (UserExist) {
+      User = { ...UserExist }
+      return generateTokenFromUser(User)
+    } else {
+      User = await this.userService.createUser(User)
+      return generateTokenFromUser(User)
+    }
+  }
 
   /**
    * Update a user by passing the user ID in the query
