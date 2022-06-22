@@ -6,7 +6,7 @@ services:
       context: ./
       dockerfile: ./Dockerfile.dev
     command: /bin/bash -c "while sleep 1000; do :; done"
-    container_name: backend_vscode
+    container_name: api_vscode
     working_dir: /server
     networks:
       - app-network
@@ -27,10 +27,11 @@ services:
         "--collation-server=utf8mb4_unicode_ci"
       ]
     volumes:
-      # - ./db/db-data:/var/lib/mysql
+      - ./db/db-data:/var/lib/mysql
       - ./db/mariadb.cnf:/etc/mysql/mariadb.cnf
-      - ./db/dev-initdb.d:/docker-entrypoint-initdb.d
-      - ./db/ddl/ddl.sql:/docker-entrypoint-initdb.d/999-ddl.sql
+      # Pointer vers un dossier qui aura des scripts d'initialisation de notre base
+      - ./db/dev-initdb.d:/docker-entrypoint-initdb.d/init-dev-ddl.sql
+      - ./db/dev-initdb.d:/docker-entrypoint-initdb.d/999-ddl.sql
     networks:
       - app-network
 

@@ -14,13 +14,13 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema challenge-db-dev
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `challenge_prod` DEFAULT CHARACTER SET utf8 ;
-USE `challenge_prod` ;
+CREATE SCHEMA IF NOT EXISTS `challenge_stage` DEFAULT CHARACTER SET utf8 ;
+USE `challenge_stage` ;
 
 -- -----------------------------------------------------
--- Table `challenge_prod`.`user`
+-- Table `challenge_stage`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `challenge_prod`.`user` (
+CREATE TABLE IF NOT EXISTS `challenge_stage`.`user` (
   `userId` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) NOT NULL,
   `firstName` VARCHAR(100) NOT NULL,
@@ -32,9 +32,9 @@ CREATE TABLE IF NOT EXISTS `challenge_prod`.`user` (
 
 
 -- -----------------------------------------------------
--- Table `challenge_prod`.`Instance`
+-- Table `challenge_stage`.`Instance`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `challenge_prod`.`Instance` (
+CREATE TABLE IF NOT EXISTS `challenge_stage`.`Instance` (
   `id_instance` INT NOT NULL AUTO_INCREMENT,
   `ssh_key` VARCHAR(300) NOT NULL,
   `ip_adress` VARCHAR(45) NOT NULL,
@@ -50,10 +50,10 @@ CREATE TABLE IF NOT EXISTS `challenge_prod`.`Instance` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-USE `challenge_prod`;
+USE `challenge_stage`;
 
 DELIMITER $$
-USE `challenge_prod`$$
+USE `challenge_stage`$$
 create trigger before_insert_user
 before insert
 on user for each row set newUser.email = lower(trim(newUser.email))$$
