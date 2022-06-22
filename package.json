@@ -25,7 +25,8 @@
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.5",
     "swagger-ui-express": "^4.4.0",
-    "tsoa": "^4.1.0"
+    "tsoa": "^4.1.0",
+    "xslx": "^1.0.0"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.2",
