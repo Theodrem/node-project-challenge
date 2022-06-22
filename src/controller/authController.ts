@@ -1,8 +1,7 @@
-import { Controller, Route, Get, Body, Exception, Post, Query, Header, Security } from 'tsoa'
+import { Controller, Route, Body, Post, Header } from 'tsoa'
 import { UserService } from '../services/UserService'
 import { LoginCreateUser } from '../Type/LoginCreateUser'
-import { IUserCreate, IUser } from '../Type/AuthenticationType'
-import { generateToken, generateAuthToken, verifyToken } from '../services/Jwt'
+import { generateAuthToken } from '../services/Jwt'
 import { IUserLogged } from '../Type/api/APIResponses'
 import { generateMail } from '../services/NodeMailerService'
 const config = require('../config/authConfig')

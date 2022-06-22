@@ -1,10 +1,8 @@
 import { Controller, Route, Get, Post, SuccessResponse, Body, Path, Put, Delete, Security } from 'tsoa'
-import { generateTokenFromUser } from '../services/Jwt'
 import { UserService } from '../services/UserService'
-import { ICreateResponse, IUpdateResponse } from '../Type/api/APIResponses'
-import { IUserByEmail, IUserCreate, IUserUpdate } from '../Type/AuthenticationType'
+import { IUpdateResponse } from '../Type/api/APIResponses'
+import { IUserUpdate } from '../Type/AuthenticationType'
 import { IUser } from '../Type/AuthenticationType'
-import { LoginCreateUser } from '../Type/LoginCreateUser'
 
 @Route('user')
 export class UserController extends Controller {
@@ -38,23 +36,6 @@ export class UserController extends Controller {
   // public async getUser(@Path() id: number): Promise<IUser> {
   //   return this.userService.getUser(id);
   // }
-
-  /**
-   * Create a new user
-   */
-  @Post()
-  @SuccessResponse('201', 'Created')
-  public async loginWithoutMail(@Body() BodyRequest: LoginCreateUser): Promise<any> {
-    let UserExist = await this.userService.getUserByEMail(BodyRequest.email)
-    let User: IUserCreate = { email: BodyRequest.email, firstName: '', lastName: '', role: 'ROLE_USER' }
-    if (UserExist) {
-      User = { ...UserExist }
-      return generateTokenFromUser(User)
-    } else {
-      User = await this.userService.createUser(User)
-      return generateTokenFromUser(User)
-    }
-  }
 
   /**
    * Update a user by passing the user ID in the query

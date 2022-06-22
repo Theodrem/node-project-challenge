@@ -1,17 +1,17 @@
 import Nodemailer from 'nodemailer'
-import { IUserCreate } from '../Type/AuthenticationType'
+import { IUser, IUserCreate } from '../Type/AuthenticationType'
 import { generateToken } from './Jwt'
 import { UserService } from './UserService'
 const config = require('../config/authConfig')
 
 export async function generateMail(email: string): Promise<void> {
   const userService = new UserService()
-  let UserId: Number | undefined = await userService.getUserByEMail(email)
-  let User: IUserCreate = { email: email, firstName: '', lastName: '' }
-  if (!UserId) {
-    User = await userService.createUser(User)
-  }
-  await sendMailNode(email, generateToken(User, config.secretLogin, config.jwtLoginExpiration))
+  let existingUser: IUser | undefined = await userService.getUserByEMail(email)
+  let user: IUserCreate = { email: email, firstName: '', lastName: '' }
+
+  existingUser ? user = { ...existingUser } : await userService.createUser(user)
+  
+  await sendMailNode(email, generateToken(user, config.secretLogin, config.jwtLoginExpiration))
 }
 
 export async function sendMailNode(Email: string, Jwt: string): Promise<void> {
