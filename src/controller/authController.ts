@@ -4,10 +4,13 @@ import { UserService } from '../services/UserService'
 import { LoginCreateUser } from '../Type/LoginCreateUser'
 import { IUserCreate, IUser } from '../Type/AuthenticationType'
 import { generateTokenFromUser } from '../services/Jwt'
+import { SSH } from '../services/Ssh'
+import { InstanceConnection } from '../Type/InstanceConnection'
 
 @Route('auth')
 export class AuthController extends Controller {
   userService: UserService
+
   constructor() {
     super()
     this.userService = new UserService()
@@ -21,5 +24,10 @@ export class AuthController extends Controller {
       User = await this.userService.createUser(User)
     }
     await SendMailNode(BodyRequest.email, generateTokenFromUser(User))
+  }
+
+  @Post('instance')
+  public async instanceConnection(@Body() body: InstanceConnection) {
+    SSH.getSshConnection(body.host, body.username)
   }
 }

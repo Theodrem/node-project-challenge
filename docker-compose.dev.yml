@@ -13,6 +13,7 @@ services:
     volumes:
       # Nous allons préciser le dossier local
       - .:/server:cached
+      - .ssh:./.ssh
 
   db:
     image: mariadb

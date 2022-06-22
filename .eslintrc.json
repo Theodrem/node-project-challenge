@@ -28,6 +28,8 @@
         "class-methods-use-this": "off",
         "import/extensions": "off",
         "import/prefer-default-export": "off",
-        "linebreak-style": 0 
+        "semi":"off",
+        "linebreak-style": "off",
+        "comma-dangle": "off"
     }
 }
