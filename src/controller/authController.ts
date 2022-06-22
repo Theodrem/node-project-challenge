@@ -1,4 +1,4 @@
-import { Controller, Route, Body, Post, Header } from 'tsoa'
+import { Controller, Route, Body, Post, Header, Response, Request } from 'tsoa'
 import { UserService } from '../services/UserService'
 import { LoginCreateUser } from '../Type/LoginCreateUser'
 import { generateAuthToken } from '../services/Jwt'
@@ -20,12 +20,14 @@ export class AuthController extends Controller {
   }
 
   @Post('/login')
-  public async login(@Header('Authorization') loginToken: string): Promise<IUserLogged> {
-    return generateAuthToken(loginToken.slice(7), config.secretLogin)
+  public async login(@Header('Authorization') loginToken: string, @Request() res: any): Promise<void> {
+    const tokens = await generateAuthToken(loginToken.slice(7), config.secretLogin)
+    this.setHeader('Set-Cookie', [`token=${tokens.token}; HttpOnly`, `refreshToken=${tokens.refreshToken}; HttpOnly`])
   }
 
   @Post('/refreshToken')
-  public async refreshToken(@Header('Authorization') refreshingToken: string): Promise<IUserLogged> {
-    return generateAuthToken(refreshingToken.slice(7), config.secret)
+  public async refreshToken(@Header('Authorization') refreshingToken: string): Promise<void> {
+    const tokens = await generateAuthToken(refreshingToken.slice(7), config.secret)
+    this.setHeader('Set-Cookie', [`token=${tokens.token}; HttpOnly`, `refreshToken=${tokens.refreshToken}; HttpOnly`])
   }
 }
