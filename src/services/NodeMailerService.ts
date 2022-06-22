@@ -1,6 +1,20 @@
 import Nodemailer from 'nodemailer'
+import { IUserCreate } from '../Type/AuthenticationType'
+import { generateToken } from './Jwt'
+import { UserService } from './UserService'
+const config = require('../config/authConfig')
 
-export async function SendMailNode(Email: string, Jwt: string) {
+export async function generateMail(email: string): Promise<void> {
+  const userService = new UserService()
+  let UserId: Number | undefined = await userService.getUserByEMail(email)
+  let User: IUserCreate = { email: email, firstName: '', lastName: '' }
+  if (!UserId) {
+    User = await userService.createUser(User)
+  }
+  await sendMailNode(email, generateToken(User, config.secretLogin, config.jwtLoginExpiration))
+}
+
+export async function sendMailNode(Email: string, Jwt: string): Promise<void> {
   // create reusable transporter object using the default SMTP transport
   let transporter = Nodemailer.createTransport({
     service: process.env.SENDER_SERVICE,
