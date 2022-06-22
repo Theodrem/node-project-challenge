@@ -1,9 +1,10 @@
-import { Controller, Route, Get, Body, Exception, Post, Query } from 'tsoa'
-import { SendMailNode } from '../services/NodeMailerService'
+import { Controller, Route, Body, Post, Header } from 'tsoa'
 import { UserService } from '../services/UserService'
 import { LoginCreateUser } from '../Type/LoginCreateUser'
-import { IUserCreate, IUser } from '../Type/AuthenticationType'
-import { generateTokenFromUser } from '../services/Jwt'
+import { generateAuthToken } from '../services/Jwt'
+import { IUserLogged } from '../Type/api/APIResponses'
+import { generateMail } from '../services/NodeMailerService'
+const config = require('../config/authConfig')
 
 @Route('auth')
 export class AuthController extends Controller {
@@ -13,13 +14,18 @@ export class AuthController extends Controller {
     this.userService = new UserService()
   }
 
-  @Post()
-  public async login(@Body() BodyRequest: LoginCreateUser): Promise<void> {
-    let UserId: Number | undefined = await this.userService.getUserByEMail(BodyRequest.email)
-    let User: IUserCreate = { email: BodyRequest.email, firstName: '', lastName: '' }
-    if (!UserId) {
-      User = await this.userService.createUser(User)
-    }
-    await SendMailNode(BodyRequest.email, generateTokenFromUser(User))
+  @Post('/sendMail')
+  public async sendMail(@Body() BodyRequest: LoginCreateUser): Promise<void> {
+    generateMail(BodyRequest.email)
+  }
+
+  @Post('/login')
+  public async login(@Header('Authorization') loginToken: string): Promise<IUserLogged> {
+    return generateAuthToken(loginToken.slice(7), config.secretLogin)
+  }
+
+  @Post('/refreshToken')
+  public async refreshToken(@Header('AuthorizationRefresh') refreshingToken: string): Promise<IUserLogged> {
+    return generateAuthToken(refreshingToken, config.secret)
   }
 }

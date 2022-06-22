@@ -1,11 +1,10 @@
 import { Controller, Route, Get, Post, SuccessResponse, Body, Path, Put, Delete, Security } from 'tsoa'
 import { UserService } from '../services/UserService'
-import { ICreateResponse, IUpdateResponse } from '../Type/api/APIResponses'
-import { IUserCreate, IUserUpdate } from '../Type/AuthenticationType'
+import { IUpdateResponse } from '../Type/api/APIResponses'
+import { IUserUpdate } from '../Type/AuthenticationType'
 import { IUser } from '../Type/AuthenticationType'
 
 @Route('user')
-@Security('jwt')
 export class UserController extends Controller {
   userService: UserService
   constructor() {
@@ -16,6 +15,7 @@ export class UserController extends Controller {
   /**
    * Get All Users
    */
+  @Security('jwt', ["ROLE_ADMIN"])
   @Get()
   public async getAll(): Promise<IUser[]> {
     return this.userService.getAllUsers()
@@ -35,17 +35,6 @@ export class UserController extends Controller {
   // @Get('{id}')
   // public async getUser(@Path() id: number): Promise<IUser> {
   //   return this.userService.getUser(id);
-  // }
-
-  /**
-   * Create a new user
-   */
-  // @Post()
-  // @SuccessResponse('201', 'Created')
-  // public async createUser(@Body() requestBody: IUserCreate): Promise<ICreateResponse> {
-  //   // set return status 201
-  //   this.setStatus(201);
-  //   return this.userService.createUser(requestBody);
   // }
 
   /**
