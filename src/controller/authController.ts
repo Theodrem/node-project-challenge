@@ -20,24 +20,16 @@ export class AuthController extends Controller {
   }
 
   @Post('/login')
-  public async login(@Header('Authorization') loginToken: string): Promise<void> {
+  public async login(@Header('Authorization') loginToken: string): Promise<IUserLogged> {
     const tokens: IUserLogged = await generateAuthToken(loginToken.slice(7), config.secretLogin)
-    tokens.statusCode == '401'
-      ? this.setStatus(Number(tokens.statusCode))
-      : this.setHeader('Set-Cookie', [
-          `token=${tokens.token}; HttpOnly`,
-          `refreshToken=${tokens.refreshToken}; HttpOnly`
-        ])
+    this.setStatus(Number(tokens.statusCode))
+    return tokens
   }
 
   @Post('/refreshToken')
-  public async refreshToken(@Header('Authorization') refreshingToken: string): Promise<void> {
+  public async refreshToken(@Header('Authorization') refreshingToken: string): Promise<IUserLogged> {
     const tokens: IUserLogged = await generateAuthToken(refreshingToken.slice(7), config.secret)
-    tokens.statusCode == '401'
-      ? this.setStatus(Number(tokens.statusCode))
-      : this.setHeader('Set-Cookie', [
-          `token=${tokens.token}; HttpOnly`,
-          `refreshToken=${tokens.refreshToken}; HttpOnly`
-        ])
+    this.setStatus(Number(tokens.statusCode))
+    return tokens
   }
 }
