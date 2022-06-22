@@ -25,7 +25,7 @@ export class AuthController extends Controller {
   }
 
   @Post('/refreshToken')
-  public async refreshToken(@Header('AuthorizationRefresh') refreshingToken: string): Promise<IUserLogged> {
-    return generateAuthToken(refreshingToken, config.secret)
+  public async refreshToken(@Header('Authorization') refreshingToken: string): Promise<IUserLogged> {
+    return generateAuthToken(refreshingToken.slice(7), config.secret)
   }
 }
