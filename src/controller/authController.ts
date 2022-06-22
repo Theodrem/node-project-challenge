@@ -21,7 +21,6 @@ export class AuthController extends Controller {
   }
 
   @Post('/login')
-  @Security('jwt')
   public async login(@Header('Authorization') loginToken: string): Promise<IUserLogged> {
     return generateAuthToken(loginToken.slice(7), config.secretLogin)
   }
