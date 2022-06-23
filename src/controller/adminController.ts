@@ -12,7 +12,7 @@ export class AdminController extends Controller {
   }
 
   @Post('/generate-excel')
-  public async generateExel(@Body() BodyRequest: GetPromotionChallenge): Promise<any> {
+  public async generateExcel(@Body() BodyRequest: GetPromotionChallenge): Promise<any> {
     return this.adminService.generateExcel(BodyRequest.promotionName, BodyRequest.challengeName)
   }
 }
