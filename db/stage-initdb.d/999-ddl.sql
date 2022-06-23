@@ -8,19 +8,9 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema challenge_dev
+-- Table `user`
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema challenge_dev
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `challenge_dev` DEFAULT CHARACTER SET utf8 ;
-USE `challenge_dev` ;
-
--- -----------------------------------------------------
--- Table `challenge_dev`.`user`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `challenge_dev`.`user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `userId` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) NOT NULL,
   `firstName` VARCHAR(100) NOT NULL,
@@ -32,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `challenge_dev`.`user` (
 
 
 -- -----------------------------------------------------
--- Table `challenge_dev`.`Instance`
+-- Table `Instance`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `challenge_dev`.`Instance` (
+CREATE TABLE IF NOT EXISTS `Instance` (
   `id_instance` INT NOT NULL AUTO_INCREMENT,
   `ssh_key` VARCHAR(300) NOT NULL,
   `ip_adress` VARCHAR(45) NOT NULL,
@@ -45,15 +35,12 @@ CREATE TABLE IF NOT EXISTS `challenge_dev`.`Instance` (
   INDEX `fk_Instance_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_Instance_user`
     FOREIGN KEY (`user_id`)
-    REFERENCES `challenge_dev`.`user` (`userId`)
+    REFERENCES `user` (`userId`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
-USE `challenge_dev`;
-
 DELIMITER $$
-USE `challenge_dev`$$
 create trigger before_insert_user
 before insert
 on user for each row set newUser.email = lower(trim(newUser.email))$$
