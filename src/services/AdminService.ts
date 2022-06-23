@@ -34,4 +34,38 @@ export class AdminService {
       return err
     }
   }
+
+  public async getPromotion(promotionParam: number | string): Promise<any> {
+    const db = DB.Connection
+    try {
+      const data = await db.query<RowDataPacket[]>(
+        `select first_name as Prenom,
+         last_name as Nom
+         from user
+         INNER JOIN promotion ON user.promotion_id=promotion.id_promotion
+         where promotion.id_promotion="${promotionParam}" or promotion.name="${promotionParam}"`
+      )
+      return data[0]
+    } catch (err) {
+      return err
+    }
+  }
+
+  public async getChallenge(challengeParam: number | string): Promise<any> {
+    const db = DB.Connection
+    try {
+      const data = await db.query<RowDataPacket[]>(
+        `select 
+         challenge.name as Challenge,
+         promotion.name as Promotion
+         from challenge
+         LEFT JOIN challenge_promotion ON challenge.id_challenge=challenge_promotion.id_challenge
+         LEFT JOIN promotion ON challenge_promotion.id_promotion=promotion.id_promotion
+         where challenge.id_challenge="${challengeParam}" or challenge.name="${challengeParam}"`
+      )
+      return data[0]
+    } catch (err) {
+      return err
+    }
+  }
 }
