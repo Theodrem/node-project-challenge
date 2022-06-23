@@ -1,5 +1,6 @@
-import { Controller, Route, Get, Body, Exception, Post, Query } from 'tsoa'
+import { Controller, Route, Get, Body, Exception, Post, Query, Path } from 'tsoa'
 import { AdminService } from '../services/AdminService'
+import { GetPromotionChallenge } from '../Type/AdminType'
 
 @Route('admin')
 export class AdminController extends Controller {
@@ -10,8 +11,8 @@ export class AdminController extends Controller {
     this.adminService = new AdminService()
   }
 
-  @Get('/generate-excel')
-  public async generateExel(): Promise<any> {
-    return this.adminService.generateExcel()
+  @Post('/generate-excel')
+  public async generateExel(@Body() BodyRequest: GetPromotionChallenge): Promise<any> {
+    return this.adminService.generateExcel(BodyRequest.promotionName, BodyRequest.challengeName)
   }
 }
