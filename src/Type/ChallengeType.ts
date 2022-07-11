@@ -3,24 +3,20 @@ export class Challenge {
 
   name: string;
 
-  expirationDate: Date;
+  expirationDate: string;
 
-  idTest: number;
+  testId: number;
 
-  constructor(idChallenge: number, name: string, expirationDate: Date, idTest: number) {
+  constructor(idChallenge: number, name: string, expirationDate: string, testId: number) {
     this.idChallenge = idChallenge;
     this.name = name;
     this.expirationDate = expirationDate;
-    this.idTest = idTest;
+    this.testId = testId;
   }
 }
 
-export interface CreateChallengeRequest {
+export interface ChallengeRequest {
   name: string
-  expirationDate: Date
+  expirationDate: string
   testId: number
-}
-
-export interface UpdateChallengeRequest extends Partial<CreateChallengeRequest> {
-
 }

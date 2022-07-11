@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 import { OkPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 import { DB } from '../db/db';
-import { Challenge, CreateChallengeRequest, UpdateChallengeRequest } from '../Type/ChallengeType';
+import { Challenge, ChallengeRequest } from '../Type/ChallengeType';
 
 export class ChallengeService {
   static database = DB.Connection;
 
-  public static async getAllChallenges(): Promise<Challenge[]> {
+  static async getAllChallenges(): Promise<Challenge[]> {
     try {
       const challenges = await this.database.query<Challenge[] & RowDataPacket[]>('SELECT * FROM challenge');
       return challenges[0];
@@ -15,8 +15,8 @@ export class ChallengeService {
     }
   }
 
-  public static async createChallenge(challengeData: CreateChallengeRequest): Promise<Challenge> {
-    const data = await this.database.query<OkPacket & ResultSetHeader>('INSERT INTO challenge (name, expiration_date, id_test)  VALUE(?, ?, ?)', [challengeData.name, challengeData.expirationDate, challengeData.testId]);
+  static async createChallenge(challengeData: ChallengeRequest): Promise<Challenge> {
+    const data = await this.database.query<OkPacket & ResultSetHeader>('INSERT INTO challenge (name, expiration_date, id_test)  VALUE(?, STR_TO_DATE(?, "%m-%d-%Y %H:%i:%s"), ?)', [challengeData.name, challengeData.expirationDate, challengeData.testId]);
 
     return new Challenge(
       data[0].insertId,
@@ -26,13 +26,12 @@ export class ChallengeService {
     );
   }
 
-  public static async update(idChallenge: number, challengeData: UpdateChallengeRequest): Promise<void> {
-    const sql = `UPDATE challenge SET name = ?, expiration_date = ?,  id_test = ? WHERE id_challenge = ${idChallenge}`;
-    const result = this.database.query(sql, [challengeData.name, challengeData.expirationDate, challengeData.testId]);
-    console.log(result);
+  static async update(idChallenge: string, challengeData: Partial<ChallengeRequest>): Promise<void> {
+    const sql = 'UPDATE challenge SET name = ?, expiration_date = STR_TO_DATE(?, "%m-%d-%Y %H:%i:%s"),  id_test = ? WHERE id_challenge = ?';
+    await this.database.query<Challenge & ResultSetHeader>(sql, [challengeData.name, challengeData.expirationDate, challengeData.testId, idChallenge]);
   }
 
-  public static async delete(challengeId: number): Promise<void> {
-    await this.database.query('DELETE challenge WHERE id_challenge = ?', [challengeId]);
+  static async delete(challengeId: number): Promise<void> {
+    await this.database.query('DELETE FROM challenge WHERE id_challenge = ?', [challengeId]);
   }
 }
