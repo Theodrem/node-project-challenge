@@ -15,4 +15,14 @@ export class AdminController extends Controller {
   public async generateExcel(@Body() BodyRequest: GetPromotionChallenge): Promise<any> {
     return this.adminService.generateExcel(BodyRequest.promotionName, BodyRequest.challengeName)
   }
+
+  @Get('/promotion/{param}')
+  public async getPromotion(@Path() param: string | number): Promise<any> {
+    return this.adminService.getPromotion(param)
+  }
+
+  @Get('/challenge/{param}')
+  public async getChallenge(@Path() param: string | number): Promise<any> {
+    return this.adminService.getChallenge(param)
+  }
 }

@@ -14,8 +14,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema challenge-db-dev
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `challenge-db-dev` DEFAULT CHARACTER SET utf8 ;
-USE `challenge-db-dev` ;
+CREATE SCHEMA IF NOT EXISTS `challenge_stage` DEFAULT CHARACTER SET utf8 ;
+USE `challenge_stage` ;
 
 -- -----------------------------------------------------
 -- Table `challenge-db-dev`.`promotion`
@@ -66,7 +66,6 @@ CREATE TABLE IF NOT EXISTS `challenge-db-dev`.`instance` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `challenge-db-dev`.`challenge`
@@ -127,7 +126,7 @@ ENGINE = InnoDB;
 USE `challenge-db-dev`;
 
 DELIMITER $$
-USE `challenge-db-dev`$$
+USE `challenge_stage`$$
 create trigger before_insert_user
 before insert
 on user for each row set newUser.email = lower(trim(newUser.email))$$
