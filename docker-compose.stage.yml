@@ -1,0 +1,50 @@
+version: '3.3'
+
+services:
+  stage-db:
+    container_name: mdb
+    image: mariadb
+    restart: always
+    ports:
+      - "3310:3306"
+    env_file: 
+      - ./db/.env.stage
+    command: [
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci",
+    ]
+    volumes:
+      - ./stage/db/db-data:/var/lib/mysql
+      - ./db/mariadb.cnf:/etc/mysql/mariadb.cnf
+       # Pointer vers un dossier qui aura des scripts d'initialisation de notre base
+      - ./db/stage-initdb.d:/docker-entrypoint-initdb.d
+      # Ajouter le DDL qui va tourner en dernier
+      # ./db/ddl/ddl.sql:/docker-entrypoint-initdb.d/999-ddl.sql
+    networks:
+      - api-stage-network
+   
+
+  stage-api:
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile.prod
+    container_name: api
+    ports:
+      - "5060:5050" 
+    networks:
+      - api-stage-network
+    env_file: 
+      - ./db/.env.stage
+    restart: always
+    depends_on:
+      - stage-db
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "500m"
+
+
+networks:
+  api-stage-network:
+    driver: bridge
