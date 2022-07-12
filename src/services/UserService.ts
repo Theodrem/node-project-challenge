@@ -32,7 +32,7 @@ export class UserService {
   public async getUser(id: number): Promise<any> {
     const db = DB.Connection
     // create a new query to fetch all records from the table
-    const data = await db.query<IUser & RowDataPacket[]>(`select * from user where userId=${id}`)
+    const data = await db.query<IUser & RowDataPacket[]>(`select * from user where id_user=${id}`)
     if (data[0].length > 0) {
       return data[0][0]
     }
@@ -42,14 +42,13 @@ export class UserService {
   public async createUser(user: IUserCreate): Promise<IUser> {
     const db = DB.Connection
     const data = await db.query<OkPacket>(
-      `INSERT INTO user (email, firstName, lastName, ROLE) VALUES ("${user.email}", "${user.firstName}", "${user.lastName}", "${user.role}")`
+      `INSERT INTO user (email, first_name, last_name) VALUES ("${user.email}", "${user.firstName}", "${user.lastName}")`
     )
     const UserCreated: IUser = {
       userId: data[0].insertId,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      role: user.role
     }
     return UserCreated
   }
@@ -58,7 +57,7 @@ export class UserService {
     try {
       const db = DB.Connection
 
-      const userExist = await db.query<IUser & RowDataPacket[]>(`select email from user where userId = ${userId}`)
+      const userExist = await db.query<IUser & RowDataPacket[]>(`select email from user where id_user = ${userId}`)
       if (userExist[0].length > 0) {
         const data = await db.query<OkPacket>('update user set ? where id = ?', [user, userId])
         return {
@@ -74,7 +73,7 @@ export class UserService {
 
   public async deleteUser(id: number): Promise<IUpdateResponse> {
     const db = DB.Connection
-    const data = await db.query<OkPacket>('delete from user where userId = ?', [id])
+    const data = await db.query<OkPacket>('delete from user where id_user = ?', [id])
 
     return {
       rows: data[0].affectedRows,

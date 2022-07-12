@@ -2,6 +2,7 @@ const config = require('../config/authConfig')
 import { IUserCreate, IUser } from '../Type/AuthenticationType'
 import { sign, verify } from 'jsonwebtoken'
 import { IUserLogged } from '../Type/api/APIResponses'
+import { ErrorCode } from '../Type/api/ErrorCode'
 
 export function generateToken(body: IUserCreate, secretConfig: string, expirationConfig: string): string {
   return sign({ body }, secretConfig, {
@@ -25,7 +26,7 @@ export async function generateAuthToken(refreshToken: string, config: string): P
   } catch (err) {
     const response: IUserLogged = {
       status: 'Authentication Failed',
-      statusCode: '401',
+      statusCode: ErrorCode.Unauthorized,
       token: '',
       refreshToken: ''
     }
@@ -38,7 +39,7 @@ export async function generateTokens(authenticatedUser: IUser): Promise<IUserLog
   const refreshToken: string = generateToken(authenticatedUser, config.secret, config.jwtRefreshExpiration)
   const response: IUserLogged = {
     status: 'Success',
-    statusCode: '200',
+    statusCode: 200,
     token: jwtToken,
     refreshToken: refreshToken
   }

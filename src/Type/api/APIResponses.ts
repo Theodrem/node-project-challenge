@@ -10,7 +10,7 @@ export interface ICreateResponse {
 
 export interface IUserLogged {
   status: string
-  statusCode: string
+  statusCode: number
   token: string
   refreshToken: string
 }
