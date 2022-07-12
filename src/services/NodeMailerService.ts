@@ -6,7 +6,7 @@ const config = require('../config/authConfig')
 
 export async function generateMail(email: string): Promise<void> {
   const userService = new UserService()
-  let existingUser: IUser | undefined = await userService.getUserByEMail(email)
+  let existingUser: IUser | undefined = await userService.getUserByEmail(email)
   let user: IUserCreate = { email: email, firstName: '', lastName: '' }
 
   existingUser ? user = { ...existingUser } : await userService.createUser(user)

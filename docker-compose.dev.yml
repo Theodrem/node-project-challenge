@@ -1,18 +1,21 @@
 version: '3.9'
 
 services:
-  vscode:
+  backend_api:
     build:
       context: ./
       dockerfile: ./Dockerfile.dev
     command: /bin/bash -c "while sleep 1000; do :; done"
-    container_name: api_vscode
+    container_name: backend_api
     working_dir: /server
+    env_file:
+    - ./db/.env.dev
     networks:
       - app-network
     volumes:
       # Nous allons préciser le dossier local
       - .:/server:cached
+      - .ssh:./.ssh
 
   db:
     image: mariadb
@@ -30,8 +33,8 @@ services:
       - ./db/db-data:/var/lib/mysql
       - ./db/mariadb.cnf:/etc/mysql/mariadb.cnf
       # Pointer vers un dossier qui aura des scripts d'initialisation de notre base
-      - ./db/dev-initdb.d:/docker-entrypoint-initdb.d/init-dev-ddl.sql
-      - ./db/dev-initdb.d:/docker-entrypoint-initdb.d/999-ddl.sql
+      - ./db/dev-initdb.d:/docker-entrypoint-initdb.d/
+      #- ./db/dev-initdb.d:/docker-entrypoint-initdb.d/999-ddl.sql
     networks:
       - app-network
 
