@@ -8,7 +8,9 @@ export class ChallengeService {
 
   static async getOneChallenge(id: number): Promise<Challenge> {
     try {
-      const challenge = await this.database.query<Challenge & RowDataPacket[]>(`SELECT * FROM challenge where id_challenge=${id}`)
+      const challenge = await this.database.query<Challenge & RowDataPacket[]>(
+        `SELECT * FROM challenge where id_challenge=${id}`
+      )
       return challenge[0]
     } catch (err) {
       throw new Error(err)
@@ -46,5 +48,25 @@ export class ChallengeService {
 
   static async delete(challengeId: number): Promise<void> {
     await this.database.query('DELETE FROM challenge WHERE id_challenge = ?', [challengeId])
+  }
+
+  static async getChallengePromoScore(promotionId: number, challengeId: number) {
+    try {
+      const data = await this.database.query<any & RowDataPacket[]>(
+        `select first_name as Prenom,
+          last_name as Nom,
+          challenge_user.score as Note,
+          promotion.name as promotion,
+          challenge.name as challenge
+          from user
+          INNER JOIN challenge_user ON user.id_user = challenge_user.id_user
+          INNER JOIN challenge ON challenge_user.id_challenge = challenge.id_challenge
+          INNER JOIN promotion ON user.promotion_id = promotion.id_promotion
+          where ROLE="ROLE_USER" and promotion.id_promotion="${promotionId}" and challenge.id_challenge="${challengeId}"`
+      )
+      return data[0]
+    } catch (err) {
+      throw new Error(err)
+    }
   }
 }
