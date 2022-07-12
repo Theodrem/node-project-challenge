@@ -10,10 +10,10 @@ export class UserService {
     try {
       const data = await db.query<RowDataPacket[]>('select * from user')
       return data[0]
-    } catch (err) {}
+    } catch (err) { }
   }
 
-  public async getUserByEMail(userEmail: string): Promise<IUser | undefined> {
+  public async getUserByEmail(userEmail: string): Promise<IUser | undefined> {
     const db = DB.Connection
     // create a new query to fetch all records from the table
     const data = await db.query<IUser & RowDataPacket[]>(`select * from user where email="${userEmail}"`)
