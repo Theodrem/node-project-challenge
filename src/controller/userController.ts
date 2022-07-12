@@ -15,7 +15,7 @@ export class UserController extends Controller {
   /**
    * Get All Users
    */
-  @Security('jwt', ["ROLE_ADMIN"])
+  @Security('jwt', ['ROLE_ADMIN'])
   @Get()
   public async getAll(): Promise<IUser[]> {
     return this.userService.getAllUsers()
@@ -40,6 +40,7 @@ export class UserController extends Controller {
   /**
    * Update a user by passing the user ID in the query
    */
+  @Security('jwt', ['ROLE_ADMIN'])
   @Put('{id}')
   public async updateUser(@Path() id: number, @Body() body: IUserUpdate): Promise<IUpdateResponse> {
     return this.userService.updateUser(body, id)
@@ -48,6 +49,7 @@ export class UserController extends Controller {
   /**
    * Delete a user
    */
+  @Security('jwt', ['ROLE_ADMIN'])
   @Delete('{id}')
   public async deleteUser(@Path() id: number): Promise<IUpdateResponse> {
     return this.userService.deleteUser(id)
