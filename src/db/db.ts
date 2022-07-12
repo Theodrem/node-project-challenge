@@ -6,7 +6,6 @@ import mysql, { Pool } from 'mysql2/promise';
  * récupérer cette référence pour nos requêtes.
  */
 export class DB {
-
   // Variable "static": une seule instance pour toutes les instances de la classe DB
   private static POOL: Pool;
 
@@ -16,14 +15,11 @@ export class DB {
   static get Connection(): Pool {
     if (!this.POOL) {
       this.POOL = mysql.createPool({
-        host: process.env.DB_HOST || 'db',
-        user: process.env.DB_USER || 'root',
-        database: process.env.DB_DATABASE || 'challenge_dev',
-        password: process.env.DB_PASSWORD || 'db-dev-password'
+        host: 'db',
+        user: 'root',
+        database: 'challenge_dev',
       })
     }
-
     return this.POOL;
   }
-
 }

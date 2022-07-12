@@ -8,6 +8,6 @@ export interface IUser {
 
 export type IUserByEmail = Pick<IUser, 'userId' & 'role'>
 
-export type IUserCreate = Pick<IUser, "email" | "firstName" | "lastName" | "role">;
-export type IUserUpdate = Partial<IUserCreate>;
+export type UserCreate = Pick<IUser, 'email' | 'firstName' | 'lastName' | 'role'>;
+export type UserUpdate = Partial<UserCreate>;
 export type IUserRO = Readonly<IUser>;

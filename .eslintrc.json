@@ -28,6 +28,7 @@
         "class-methods-use-this": "off",
         "import/extensions": "off",
         "import/prefer-default-export": "off",
-        "linebreak-style": 0 
+        "linebreak-style": "off",
+        "semi": "off"
     }
 }

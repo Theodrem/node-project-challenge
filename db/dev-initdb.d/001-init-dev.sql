@@ -137,12 +137,6 @@ ENGINE = InnoDB;
 
 USE `challenge_dev`;
 
-DELIMITER $$
-USE `challenge_stage`$$
-create trigger before_insert_user
-before insert
-on user for each row set newUser.email = lower(trim(newUser.email))$$
-
 
 DELIMITER ;
 

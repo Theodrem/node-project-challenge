@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { verify } from 'jsonwebtoken'
-import { verifyToken } from '../services/Jwt'
+
 const config = require('../config/authConfig')
 
 export function expressAuthentication(request: express.Request, securityName: string, scopes?: string[]) {
@@ -10,13 +10,12 @@ export function expressAuthentication(request: express.Request, securityName: st
       if (!token) {
         reject(new Error('No token provided'))
       }
-      verify(token, config.secret, function (err: any, decoded: any) {
+      verify(token, config.secret, (err: any, decoded: any) => {
         if (err) {
           reject(err)
         } else {
-          for (let scope of scopes as string[]) {
-            if (scope === 'ROLE_ADMIN' && !decoded?.body?.role?.includes('ROLE_ADMIN'))
-              reject(new Error('REQUIRE ADMIN ROLE'))
+          for (const scope of scopes as string[]) {
+            if (scope === 'ROLE_ADMIN' && !decoded?.body?.role?.includes('ROLE_ADMIN')) { reject(new Error('REQUIRE ADMIN ROLE')) }
           }
           resolve(decoded)
         }

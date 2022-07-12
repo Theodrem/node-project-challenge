@@ -1,14 +1,18 @@
-import { Controller, Route, Body, Post, Header } from 'tsoa'
+import {
+  Controller, Route, Body, Post, Header
+} from 'tsoa'
 import { UserService } from '../services/UserService'
 import { LoginCreateUser } from '../Type/LoginCreateUser'
 import { generateAuthToken } from '../services/Jwt'
 import { IUserLogged } from '../Type/api/APIResponses'
 import { generateMail } from '../services/NodeMailerService'
+
 const config = require('../config/authConfig')
 
 @Route('auth')
 export class AuthController extends Controller {
   userService: UserService
+
   constructor() {
     super()
     this.userService = new UserService()

@@ -1,24 +1,26 @@
-import { Controller, Route, Get, Post, SuccessResponse, Body, Path, Put, Delete, Security } from 'tsoa'
-import { UserService } from '../services/UserService'
-import { IUpdateResponse } from '../Type/api/APIResponses'
-import { IUserUpdate } from '../Type/AuthenticationType'
-import { IUser } from '../Type/AuthenticationType'
+import {
+  Controller, Route, Get, Post, SuccessResponse, Body, Path, Put, Delete, Security,
+} from 'tsoa';
+import { UserService } from '../services/UserService';
+import { IUpdateResponse } from '../Type/api/APIResponses';
+import { UserUpdate, IUser } from '../Type/AuthenticationType';
 
 @Route('user')
 export class UserController extends Controller {
-  userService: UserService
+  userService: UserService;
+
   constructor() {
-    super()
-    this.userService = new UserService()
+    super();
+    this.userService = new UserService();
   }
 
   /**
    * Get All Users
    */
-  @Security('jwt', ["ROLE_ADMIN"])
+  @Security('jwt', ['ROLE_ADMIN'])
   @Get()
   public async getAll(): Promise<IUser[]> {
-    return this.userService.getAllUsers()
+    return this.userService.getAllUsers();
   }
 
   /**
@@ -41,8 +43,8 @@ export class UserController extends Controller {
    * Update a user by passing the user ID in the query
    */
   @Put('{id}')
-  public async updateUser(@Path() id: number, @Body() body: IUserUpdate): Promise<IUpdateResponse> {
-    return this.userService.updateUser(body, id)
+  public async updateUser(@Path() id: number, @Body() body: UserUpdate): Promise<IUpdateResponse> {
+    return this.userService.updateUser(body, id);
   }
 
   /**
@@ -50,6 +52,6 @@ export class UserController extends Controller {
    */
   @Delete('{id}')
   public async deleteUser(@Path() id: number): Promise<IUpdateResponse> {
-    return this.userService.deleteUser(id)
+    return this.userService.deleteUser(id);
   }
 }
