@@ -8,6 +8,7 @@ import { IUserLogged } from '../Type/api/APIResponses'
 import { generateMail } from '../services/NodeMailerService'
 import { SSH } from '../services/Ssh'
 import { InstanceConnection } from '../Type/InstanceConnection'
+
 const config = require('../config/authConfig')
 
 @Route('auth')

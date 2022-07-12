@@ -1,7 +1,8 @@
+import 'dotenv/config';
+import cors from 'cors'
 import bodyParser from 'body-parser';
 import Express from 'express';
 import swaggerUI from 'swagger-ui-express';
-import 'dotenv/config';
 import { RegisterRoutes } from './routes/routes';
 
 const PORT = process.env.PORT || 5050;
@@ -19,7 +20,7 @@ app.use(
   })
 )
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   next()
 })
