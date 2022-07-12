@@ -1,7 +1,7 @@
 import { OkPacket, RowDataPacket } from 'mysql2';
 import { DB } from '../db/db';
 import { IUser, UserCreate, UserUpdate } from '../Type/AuthenticationType';
-import { IUpdateResponse, ICreateResponse } from '../Type/api/APIResponses';
+import { IUpdateResponse } from '../Type/api/APIResponses';
 
 export class UserService {
   db = DB.Connection;

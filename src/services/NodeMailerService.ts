@@ -3,7 +3,10 @@ import { IUser, UserCreate } from '../Type/AuthenticationType';
 import { generateToken } from './Jwt';
 import { UserService } from './UserService';
 
-const config = require('../config/authConfig');
+export async function generateMail(email: string): Promise<void> {
+  const userService = new UserService()
+  let existingUser: IUser | undefined = await userService.getUserByEmail(email)
+  let user: UserCreate = { email: email, firstName: '', lastName: '' }
 
 function generateLoginUrl(Jwt: string): string {
   return process.env.REDIRECT_LOGIN_URL + Jwt;
