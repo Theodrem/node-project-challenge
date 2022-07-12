@@ -35,4 +35,9 @@ export class ChallengeController extends Controller {
   public async deleteChallenge(@Path() id: number): Promise<void> {
     await this.challengeService.delete(id)
   }
+
+  @Get('/score/{idChallenge}/{idPromo}')
+  public async getPromotionScore(@Path() idChallenge: number, @Path() idPromo: number): Promise<any> {
+    return this.challengeService.getChallengePromoScore(idPromo, idChallenge);
+  }
 }
