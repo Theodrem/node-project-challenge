@@ -23,14 +23,14 @@ export class AuthController extends Controller {
   }
 
   @Post('/login')
-  public async login(@Header('Authorization') loginToken: string): Promise<IUserLogged> {
+  public async login(@Header('auth-token') loginToken: string): Promise<IUserLogged> {
     const tokens: IUserLogged = await generateAuthToken(loginToken.slice(7), config.secretLogin)
     this.setStatus(tokens.statusCode)
     return tokens
   }
 
   @Post('/refreshToken')
-  public async refreshToken(@Header('Authorization') refreshingToken: string): Promise<IUserLogged> {
+  public async refreshToken(@Header('auth-token') refreshingToken: string): Promise<IUserLogged> {
     const tokens: IUserLogged = await generateAuthToken(refreshingToken.slice(7), config.secret)
     this.setStatus(tokens.statusCode)
     return tokens
