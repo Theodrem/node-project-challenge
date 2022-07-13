@@ -30,26 +30,32 @@ export class ChallengeTest {
   }
 
   static async firstQuestion(email: string): Promise<any> {
+    await this.updateScoreUser(email, 1, 1)
     const apiAddress = await this.instanceService.getApiAddress(email)
     const resultApi = await getStudentApi(`https://${apiAddress}`).get('/users')
 
-    if (resultApi.data[0]['email'] === 'john@example.fr') {
+    if (resultApi.data[1]['email'] === 'john@example.fr' && resultApi.data[1]['firstName'] === 'john') {
       await this.updateScoreUser(email, 1, 10)
       return true
     } else {
-      return resultApi.data[0]
+      return resultApi.data
     }
   }
 
-  static async secondQuestion(): Promise<any> {
-    await getStudentApi('http://localhost:5050').put('/users/johndoe@hetic.fr', {
-      first_name: 'name'
-    })
-    const resultApi = await getStudentApi('http://localhost:5050').get('/users/johndoe@hetic.fr')
-    if ('name' in resultApi) {
-      return true
+  static async secondQuestion(email: string): Promise<any> {
+    const firstQuestion = await this.firstQuestion(email)
+    if (firstQuestion === true) {
+      const apiAddress = await this.instanceService.getApiAddress(email)
+      const resultApi = await getStudentApi(`https://${apiAddress}`).put('/users/johndoe@hetic.fr', {
+        first_name: 'name_test'
+      })
+      if ('name' in resultApi.data[0]['email']) {
+        return true
+      } else {
+        return resultApi.data
+      }
     } else {
-      return resultApi.data
+      return this.secondQuestion(email)
     }
   }
 }
