@@ -17,11 +17,6 @@ export class ChallengeApiController extends Controller {
           email: 'john@example.fr',
           first_name: 'john',
           last_name: 'doe'
-        },
-        {
-          email: 'simple_user@test.fr',
-          first_name: 'simple',
-          last_name: 'user'
         }
       ]
     }
@@ -36,20 +31,12 @@ export class ChallengeApiController extends Controller {
   public async secondQuestion(): Promise<any> {
     return {
       question:
-        "Tu dois créer une table user avec un endpoint '/users/<userId> avec deux methodes PUT/GET. Pour modifier un ou plusieurs champs et récuperer un utilisateur."
+        "Tu dois créer une table user avec un endpoint '/users/<userEmail> avec une methode PUT. Pour modifier un champ."
     }
   }
 
   @Post('/2')
-  public async secondAnswer(@Body() body: EmailUser): Promise<any> {
-    const first = await this.challenge.firstQuestion(body.email)
-    if (first === true) {
-      const second = await this.challenge.secondQuestion()
-      if (first === true) {
-        return 'Bravo tu as 20/20'
-      }
-    } else {
-      return first
-    }
+  public async secondAnswer(@Body() bod: EmailUser): Promise<void> {
+    return await this.challenge.secondQuestion(bod.email)
   }
 }
