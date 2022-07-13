@@ -1,7 +1,7 @@
 import { OkPacket, RowDataPacket } from 'mysql2'
 import { DB } from '../db/db'
-import { IUser, IUserByEmail, IUserCreate, IUserUpdate } from '../Type/AuthenticationType'
-import { IUpdateResponse, ICreateResponse } from '../Type/api/APIResponses'
+import { IUser, IUserCreate, IUserUpdate } from '../types/AuthenticationType'
+import { IUpdateResponse } from '../types/api/APIResponses'
 
 export class UserService {
   public async getAllUsers(): Promise<any> {

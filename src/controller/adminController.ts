@@ -1,6 +1,6 @@
 import { Controller, Route, Get, Body, Exception, Post, Query, Path, Security } from 'tsoa'
 import { AdminService } from '../services/AdminService'
-import { GetPromotionChallenge } from '../Type/AdminType'
+import { GetPromotionChallenge } from '../types/AdminType'
 
 @Route('admin')
 export class AdminController extends Controller {

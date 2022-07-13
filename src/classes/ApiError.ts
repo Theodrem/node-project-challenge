@@ -1,6 +1,6 @@
-import { ErrorCode } from '../Type/api/ErrorCode';
-import { StructuredErrors } from '../Type/api/StructuredErrors';
-import { IApiError } from '../Type/api/IApiError';
+import { ErrorCode } from '../types/api/ErrorCode';
+import { StructuredErrors } from '../types/api/StructuredErrors';
+import { IApiError } from '../types/api/IApiError';
 
 export class ApiError {
   private _path: string | undefined;

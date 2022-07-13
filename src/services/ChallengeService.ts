@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { OkPacket, ResultSetHeader, RowDataPacket } from 'mysql2';
 import { DB } from '../db/db';
-import { Challenge, ChallengeRequest } from '../Type/ChallengeType';
+import { Challenge, ChallengeRequest } from '../types/ChallengeType';
 
 export class ChallengeService {
   static database = DB.Connection
@@ -36,8 +36,7 @@ export class ChallengeService {
   }
 
   static async update(idChallenge: string, challengeData: Partial<ChallengeRequest>): Promise<void> {
-    const sql =
-      'UPDATE challenge SET name = ?, expiration_date = STR_TO_DATE(?, "%m-%d-%Y %H:%i:%s"),  id_test = ? WHERE id_challenge = ?'
+    const sql = 'UPDATE challenge SET name = ?, expiration_date = STR_TO_DATE(?, "%m-%d-%Y %H:%i:%s"),  id_test = ? WHERE id_challenge = ?'
     await this.database.query<Challenge & ResultSetHeader>(sql, [
       challengeData.name,
       challengeData.expirationDate,

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { Route, Controller, Get, Post, Put, Delete, Body, SuccessResponse, Path, Security } from 'tsoa'
 import { PromotionService } from '../services/PromotionService'
-import { Promotion, PromotionRequest } from '../Type/PromotionType'
+import { Promotion, PromotionRequest } from '../types/PromotionType'
 
 @Security('jwt', ['ROLE_ADMIN'])
 @Route('/promotions')

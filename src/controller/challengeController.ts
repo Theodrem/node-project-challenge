@@ -3,7 +3,7 @@ import {
   Route, Controller, Get, Post, Put, Delete, Body, SuccessResponse, Path, Security,
 } from 'tsoa';
 import { ChallengeService } from '../services/ChallengeService';
-import { Challenge, ChallengeRequest } from '../Type/ChallengeType';
+import { Challenge, ChallengeRequest } from '../types/ChallengeType';
 
 @Security('jwt', ['ROLE_ADMIN'])
 @Route('/challenges')

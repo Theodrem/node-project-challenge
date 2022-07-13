@@ -1,12 +1,14 @@
-import { Controller, Route, Get, Post, SuccessResponse, Body, Path, Put, Delete, Security } from 'tsoa'
+import {
+  Controller, Route, Get, Body, Path, Put, Delete, Security
+} from 'tsoa'
 import { UserService } from '../services/UserService'
-import { IUpdateResponse } from '../Type/api/APIResponses'
-import { IUserUpdate } from '../Type/AuthenticationType'
-import { IUser } from '../Type/AuthenticationType'
+import { IUpdateResponse } from '../types/api/APIResponses'
+import { IUserUpdate, IUser } from '../types/AuthenticationType'
 
 @Route('user')
 export class UserController extends Controller {
   userService: UserService
+
   constructor() {
     super()
     this.userService = new UserService()
