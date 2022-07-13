@@ -16,7 +16,25 @@ Each Environment has their own `DockerFile` and `docker-compose files`. You do n
 
 The environment variables are located in db/.env.dev
 
+### Start using Remote Containers
+
 Use the `.devcontainer` folder to start you project with the `Remote - Containers` extension from VSC.
+
+Then once inside use:
+
+`npm run dev`
+
+OR 
+
+`yarn dev`
+
+To start the project
+
+### Start manually 
+
+Execute: 
+
+`docker-compose -f docker-compose.dev.yml up`
 
 Then once inside use:
 
