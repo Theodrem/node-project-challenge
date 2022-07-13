@@ -1,10 +1,15 @@
-const config = require('../config/authConfig')
-import { IUserCreate, IUser } from '../Type/AuthenticationType'
 import { sign, verify } from 'jsonwebtoken'
-import { IUserLogged } from '../Type/api/APIResponses'
-import { ErrorCode } from '../Type/api/ErrorCode'
+import { IUserCreate, IUser } from '../types/AuthenticationType'
+import { IUserLogged } from '../types/api/APIResponses'
+import { ErrorCode } from '../types/api/ErrorCode'
 
-export function generateToken(body: IUserCreate, secretConfig: string, expirationConfig: string): string {
+const authConfig = require('../config/authConfig')
+
+export function generateToken(
+  body: IUserCreate,
+  secretConfig: string,
+  expirationConfig: string
+): string {
   return sign({ body }, secretConfig, {
     expiresIn: expirationConfig
   })
@@ -19,7 +24,30 @@ export function verifyToken(token: string, secret: string): IUser {
   }
 }
 
-export async function generateAuthToken(refreshToken: string, config: string): Promise<IUserLogged> {
+export async function generateTokens(authenticatedUser: IUser): Promise<IUserLogged> {
+  const jwtToken: string = generateToken(
+    authenticatedUser,
+    authConfig.secret,
+    authConfig.jwtExpiration
+  )
+  const refreshToken: string = generateToken(
+    authenticatedUser,
+    authConfig.secret,
+    authConfig.jwtRefreshExpiration
+  )
+  const response: IUserLogged = {
+    status: 'Success',
+    statusCode: 200,
+    token: jwtToken,
+    refreshToken
+  }
+  return response
+}
+
+export async function generateAuthToken(
+  refreshToken: string,
+  config: string
+): Promise<IUserLogged> {
   try {
     const connectedUser: IUser = verifyToken(refreshToken, config)
     return generateTokens(connectedUser)
@@ -32,16 +60,4 @@ export async function generateAuthToken(refreshToken: string, config: string): P
     }
     return response
   }
-}
-
-export async function generateTokens(authenticatedUser: IUser): Promise<IUserLogged> {
-  const jwtToken: string = generateToken(authenticatedUser, config.secret, config.jwtExpiration)
-  const refreshToken: string = generateToken(authenticatedUser, config.secret, config.jwtRefreshExpiration)
-  const response: IUserLogged = {
-    status: 'Success',
-    statusCode: 200,
-    token: jwtToken,
-    refreshToken: refreshToken
-  }
-  return response
 }

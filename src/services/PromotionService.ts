@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { OkPacket, ResultSetHeader, RowDataPacket } from 'mysql2'
 import { DB } from '../db/db'
-import { Promotion, PromotionRequest } from '../Type/PromotionType'
+import { Promotion, PromotionRequest } from '../types/PromotionType'
 
 export class PromotionService {
   static database = DB.Connection

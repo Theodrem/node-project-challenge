@@ -1,11 +1,14 @@
-import { Controller, Route, Body, Post, Header } from 'tsoa'
+import {
+  Controller, Route, Body, Post, Header
+} from 'tsoa'
 import { UserService } from '../services/UserService'
-import { LoginCreateUser } from '../Type/LoginCreateUser'
+import { LoginCreateUser } from '../types/LoginCreateUser'
 import { generateAuthToken } from '../services/Jwt'
-import { IUserLogged } from '../Type/api/APIResponses'
+import { IUserLogged } from '../types/api/APIResponses'
 import { generateMail } from '../services/NodeMailerService'
 import { SSH } from '../services/Ssh'
-import { InstanceConnection } from '../Type/InstanceConnection'
+import { InstanceConnection } from '../types/InstanceConnection'
+
 const config = require('../config/authConfig')
 
 @Route('auth')
